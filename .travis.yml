@@ -1,0 +1,8 @@
+language: generic
+sudo: required
+services:
+  - docker
+before_install:
+  - docker-compose build 
+script:
+  - docker run -e CI=true harishrathor/docker-k8s-client:latest npm run test -- --coverage
