@@ -56,7 +56,7 @@ jobs:
         run: docker-compose -f docker-compose.yml build
       -
         name: Push
-        run: docker push ${{env.DOCKER_USER}}/${{env.REPO_NAME}}:latest
+        run: docker push ${{env.DOCKERHUB_USERNAME}}/${{env.REPO_NAME}}:latest
         
       
         
