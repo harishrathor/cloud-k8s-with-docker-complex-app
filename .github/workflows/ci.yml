@@ -4,10 +4,12 @@ env:
 on: 
   push:
     branches:
-      - "main"
+      - master
+      - main
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
+    - master
     - main
 jobs:
   CodeQualityCheck:
