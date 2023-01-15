@@ -1,0 +1,28 @@
+name: Publish Docs
+env:
+  NODE_VERSION: '16.15'
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'services/content_mgmt/docs/openapi.yaml'
+jobs:
+  publish-api-schema:
+    name: Publish API Schema
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set node version to ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Publish Docs
+        run: |
+          npx gh-pages -d services/content_mgmt/docs -s openapi.yaml -e services/content_mgmt/ -r "https://x-api-publish-token:${{secrets.SIMPPLR_TOKEN}}@github.com/Simpplr/docs.git" --branch main --user 'Simpplr Content Mgmt / Publish Docs Action <publish-docs@content_mgmt>' -m 'Updated content_mgmt docs'
