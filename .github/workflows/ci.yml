@@ -1,0 +1,22 @@
+name: CI-Checks
+env:
+  NODE_VERSION: '16.15'
+on: [pull_request, push]
+jobs:
+  CheckingCodeQuality:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Set node version to ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install modules
+        run: npm --version && cd ./client/  && npm install
+      - name: Run UTs
+        run: cd ./client && npm run test
+      - name: Set node version to ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
