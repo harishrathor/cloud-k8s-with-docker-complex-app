@@ -27,6 +27,14 @@ function App() {
           >
             Google
           </a>
+          <a
+            className="App-link"
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Facebook
+          </a>
           {/* <Link to="/">Home</Link> */}
           {/* <Link to="/otherpage">Other Page</Link> */}
         </header>
