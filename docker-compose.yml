@@ -37,7 +37,7 @@ services:
     build: 
       context: ./client
       dockerfile: Dockerfile.dev
-    image: harishrathor/docker-k8s-client:latest
+    image: harishrathor/k8s-with-docker-complex-app:latest
     environment:
       - WDS_SOCKET_PORT=0
     volumes:
