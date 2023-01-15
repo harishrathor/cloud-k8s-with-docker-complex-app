@@ -2,7 +2,7 @@ name: CI Checks and Build
 env:
   NODE_VERSION: '18.13'
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  DOCKERHUB_TOKEN: ${{ secrets.DOCKER_PASSWORD }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   REPO_NAME: docker-k8s-client
 on: 
   push:
