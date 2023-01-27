@@ -1,0 +1,62 @@
+version: '3'
+services:
+  postgres:
+    image: "postgres:latest"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      postgrespassword: postgrespassword
+  redis:
+    image: "redis:latest"
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./server
+    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-server:latest
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_POST=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgrespassword
+      - PGPORT=5432
+  client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile.dev
+    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-client:latest
+    environment:
+      - WDS_SOCKET_PORT=0
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+  worker:
+    build: 
+      context: ./worker
+      dockerfile: Dockerfile.dev
+    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-worker:latest
+    volumes:
+      - /app/node_modules
+      - ./worker:/app
+    environment:
+        - REDIS_HOST=redis
+        - REDIS_PORT=6379
+      
+  nginx:
+    depends_on:
+      - client
+      - api
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-nginx:latest
+    ports:
+      - '3050:80'
+ 
+
+
+
