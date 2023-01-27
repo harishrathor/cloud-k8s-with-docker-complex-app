@@ -2,7 +2,6 @@ version: "3"
 services:
   client:
     image: ${DOCKER_REGISTRY}/k8s-with-docker-complex-client:latest
-    mem_limit: 128m
     hostname: client
   server:
     image: ${DOCKER_REGISTRY}/k8s-with-docker-complex-server:latest
@@ -24,6 +23,9 @@ services:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
   nginx:
+    depends_on:
+      - client
+      - server
     image: ${DOCKER_REGISTRY}/k8s-with-docker-complex-nginx:latest
     mem_limit: 128m
     hostname: nginx
