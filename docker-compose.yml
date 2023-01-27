@@ -1,11 +1,11 @@
 version: "3"
 services:
   client:
-    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-client:latest
+    image: ${DOCKER_REGISTRY}/k8s-with-docker-complex-client:latest
     mem_limit: 128m
     hostname: client
   server:
-    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-server:latest
+    image: ${DOCKER_REGISTRY}/k8s-with-docker-complex-server:latest
     mem_limit: 128m
     hostname: api
     environment:
@@ -17,14 +17,14 @@ services:
       - PGPASSWORD=$PGPASSWORD
       - PGPORT=$PGPORT
   worker:
-    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-worker:latest
+    image: ${DOCKER_REGISTRY}/k8s-with-docker-complex-worker:latest
     mem_limit: 128m
     hostname: worker
     environment:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
   nginx:
-    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-nginx:latest
+    image: ${DOCKER_REGISTRY}/k8s-with-docker-complex-nginx:latest
     mem_limit: 128m
     hostname: nginx
     ports:
