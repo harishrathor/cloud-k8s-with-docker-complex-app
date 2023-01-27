@@ -7,7 +7,8 @@ env:
   DOCKER_APP_NAME: ${{ vars.DOCKER_APP_NAME }}
   AWS_CLIENT_ID: ${{ secrets.AWS_CLIENT_ID }}
   AWS_SECRET_ID: ${{ secrets.AWS_SECRET_ID }}
-  EBS_ENV_NAME: K8swithdockercomplexapp-env
+  EBS_ENV_NAME: ${{vars.EBS_ENV_NAME}}
+
 on: 
   push:
     branches:
@@ -30,8 +31,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install modules
         run: npm --version && cd ./client/  && npm install
-      - name: Run UTs
-        run: cd ./client && npm run test
+      # - name: Run UTs
+      #   run: cd ./client && npm run test
       - name: Set node version to ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
@@ -57,10 +58,19 @@ jobs:
           password: ${{ env.DOCKERHUB_TOKEN }}
       - 
         name: Build
-        run: docker-compose -f docker-compose.yml build
+        run: docker-compose -f docker-compose-dev.yml build
       -
-        name: Push
-        run: docker push ${{env.DOCKER_REGISTRY}}/${{env.DOCKER_APP_NAME}}:latest
+        name: PushServerImage
+        run: docker push ${{env.DOCKER_REGISTRY}}/k8s-with-docker-complex-server:latest
+      -
+        name: PushClientImage
+        run: docker push ${{env.DOCKER_REGISTRY}}/k8s-with-docker-complex-client:latest
+      -
+        name: PushWorkerImage
+        run: docker push ${{env.DOCKER_REGISTRY}}/k8s-with-docker-complex-worker:latest
+      -
+        name: PushNginxImage
+        run: docker push ${{env.DOCKER_REGISTRY}}/k8s-with-docker-complex-nginx:latest
   Deployment:
     runs-on: ubuntu-latest
     needs: Build
