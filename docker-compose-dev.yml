@@ -11,7 +11,7 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./server
-    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-server:latest
+    image: ${{ vars.DOCKER_REGISTRY }}/k8s-with-docker-complex-server:latest
     volumes:
       - /app/node_modules
       - ./server:/app
@@ -27,7 +27,7 @@ services:
     build: 
       context: ./client
       dockerfile: Dockerfile.dev
-    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-client:latest
+    image: ${{ vars.DOCKER_REGISTRY }}/k8s-with-docker-complex-client:latest
     environment:
       - WDS_SOCKET_PORT=0
     volumes:
@@ -37,7 +37,7 @@ services:
     build: 
       context: ./worker
       dockerfile: Dockerfile.dev
-    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-worker:latest
+    image: ${{ vars.DOCKER_REGISTRY }}/k8s-with-docker-complex-worker:latest
     volumes:
       - /app/node_modules
       - ./worker:/app
@@ -53,7 +53,7 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile.dev
-    image: ${{ secrets.DOCKER_REGISTRY }}/k8s-with-docker-complex-nginx:latest
+    image: ${{ vars.DOCKER_REGISTRY }}/k8s-with-docker-complex-nginx:latest
     ports:
       - '3050:80'
  
