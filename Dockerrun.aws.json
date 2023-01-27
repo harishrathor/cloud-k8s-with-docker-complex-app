@@ -1,13 +1,39 @@
 {
-    "AWSEBDockerrunVersion": "2",
-    "Image": {
-        "Name": "${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_APP_NAME }}:latest",
-        "Update": "true"
-    },
-    "Ports": [
+    "AWSEBDockerrunVersion": "3",
+    "containerDefinitions": [
         {
-            "ContainerPort": "80"
+            "name": "client",
+            "image": "${{vars.DOCKER_REGISTRY }}/k8s-with-docker-complex-client",
+            "hostname": "client",
+            "essential": false
+        },
+        {
+            "name": "server",
+            "image": "${{vars.DOCKER_REGISTRY }}/k8s-with-docker-complex-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "${{vars.DOCKER_REGISTRY }}/k8s-with-docker-complex-worker",
+            "hostname": "worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "${{vars.DOCKER_REGISTRY }}/k8s-with-docker-complex-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "client",
+                "server"
+            ]
         }
-    ],
-    "Logging": "/var/log/nginx"
+    ]
 }
