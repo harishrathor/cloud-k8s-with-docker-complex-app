@@ -58,7 +58,7 @@ jobs:
           password: ${{ env.DOCKERHUB_TOKEN }}
       - 
         name: Build
-        run: docker-compose -f docker-compose-dev.yml build
+        run: docker-compose -f docker-compose-dev.yml build  --build-arg "DOCKER_REGISTRY=${{ env.DOCKER_REGISTRY }}"
       -
         name: PushServerImage
         run: docker push ${{env.DOCKER_REGISTRY}}/k8s-with-docker-complex-server:latest
